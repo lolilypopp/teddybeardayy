@@ -1,47 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Happy Birthday, Hamza!</title>
-<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, Hamza!</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header><h1>Happy Birthday, Hamza!</h1></header>
-<main>
-  <div class="stage" id="stage">
-    <div class="cake" id="cake" role="button" tabindex="0" aria-label="Birthday cake. Click or blow to extinguish the candle.">
-      <div class="layer layer-bottom"></div>
-      <div class="layer layer-middle"></div>
-      <div class="layer layer-top"></div>
-      <div class="icing"></div>
-      <div class="plate" aria-hidden="true"></div>
-      <div class="candle" id="candle">
-        <div class="wick"></div>
-        <div class="flame" id="flame">
-          <div class="outer"></div>
-          <div class="inner"></div>
-        </div>
-      </div>
-    </div>
+  <h1 class="title">Happy Birthday, Hamza!</h1>
 
-    <div class="message" id="message" aria-live="polite" style="display:none">
-      Wishing you a day filled with sunshine and smiles. I love you, my teddy bear 💕
-    </div>
-
-    <div class="hint" id="hint">Click the cake (or tap) to unlock audio, then press "Use mic" and blow into your microphone.</div>
-    <div class="controls">
-      <button id="micBtn">🎤 Use mic</button>
-      <button id="resetBtn">Reset</button>
+  <div class="cake">
+    <div class="plate"></div>
+    <div class="layer layer-bottom"></div>
+    <div class="layer layer-middle"></div>
+    <div class="layer layer-top"></div>
+    <div class="icing"></div>
+    <div class="drip drip1"></div>
+    <div class="drip drip2"></div>
+    <div class="drip drip3"></div>
+    <div class="candle">
+      <div class="flame" id="flame"></div>
     </div>
   </div>
-</main>
 
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_02281c78cf.mp3?filename=happy-birthday-to-you-instrumental-music-11028.mp3" type="audio/mpeg">
-</audio>
+  <p class="message">Wishing you a day filled with sunshine and smiles. I love you, my teddy bear 💕</p>
 
-<script src="script.js"></script>
+  <audio id="birthdayMusic" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5fd2f0d8e0.mp3?filename=happy-birthday-to-you-piano-118270.mp3" loop></audio>
+
+  <script src="script.js"></script>
 </body>
 </html>
