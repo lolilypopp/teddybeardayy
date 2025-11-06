@@ -1,40 +1,46 @@
-const cake = document.getElementById('cake');
-const flame = document.getElementById('flame');
-const message = document.getElementById('message');
-const micBtn = document.getElementById('micBtn');
-const resetBtn = document.getElementById('resetBtn');
-const music = document.getElementById('music');
+const flame = document.getElementById("flame");
+const music = document.getElementById("birthdayMusic");
 
-let audioUnlocked = false;
-let micStarted = false;
-let listening = false;
-let audioCtx, analyser, stream;
-let prevMax = 0;
+if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      const context = new AudioContext();
+      const mic = context.createMediaStreamSource(stream);
+      const analyser = context.createAnalyser();
+      analyser.fftSize = 512;
+      mic.connect(analyser);
 
-function unlockAudio() {
-  if (audioUnlocked) return;
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    if (ctx.state === 'suspended') ctx.resume();
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.connect(g); g.connect(ctx.destination);
-    o.start(0); o.stop(0);
-  } catch(e) { console.warn('unlock audio failed', e); }
-  audioUnlocked = true;
-}
+      const data = new Uint8Array(analyser.frequencyBinCount);
 
-document.body.addEventListener('click', () => {
-  unlockAudio();
-  if (!micStarted) micStarted = true;
-});
+      let blown = false;
 
-function extinguish() {
-  if (cake.classList.contains('extinguished')) return;
-  cake.classList.add('extinguished');
-  message.style.display = 'block';
-  fadeInMusic();
-  spawnConfetti();
+      function detectBlow() {
+        analyser.getByteFrequencyData(data);
+        const avg = data.reduce((a, b) => a + b) / data.length;
+
+        if (avg > 85 && !blown) {
+          blown = true;
+          flame.style.transition = "opacity 0.5s ease";
+          flame.style.opacity = "0";
+          setTimeout(() => flame.style.display = "none", 600);
+
+          // restart the audio context for safety
+          if (context.state === "suspended") context.resume();
+
+          // play the soft happy birthday music
+          music.volume = 0.5;
+          music.play().catch(err => console.log("Playback blocked:", err));
+        }
+
+        requestAnimationFrame(detectBlow);
+      }
+
+      detectBlow();
+    })
+    .catch(err => console.log("Mic access denied:", err));
+} else {
+  console.log("getUserMedia not supported on this browser.");
+}  spawnConfetti();
 }
 
 function relight() {
